@@ -26,6 +26,9 @@ import org.junit.contrib.truth.FailureStrategy;
  * @author Christian Gruber (cgruber@israfil.net)
  */
 public class Subject<S extends Subject<S,T>,T> {
+  
+  private static final String FAILURE_PREFIX = "Not true that ";
+  
   private final FailureStrategy failureStrategy;
   private final T subject;
   private final And<S> chain;
@@ -106,7 +109,8 @@ public class Subject<S extends Subject<S,T>,T> {
 
   public And<S> isA(Class<?> clazz) {
     if (!clazz.isInstance(getSubject())) {
-      fail("is a", clazz.getName());
+      failWithFormat("<%s> is a <%s>.  It is a <%s>", 
+          getSubject(), clazz.getName(), getSubject().getClass().getName());
     }
     return nextChain();
   }
@@ -123,7 +127,7 @@ public class Subject<S extends Subject<S,T>,T> {
   }
 
   protected void fail(String verb, Object... messageParts) {
-    String message = "Not true that ";
+    String message = FAILURE_PREFIX;
     message += "<" + getSubject() + "> " + verb;
     for (Object part : messageParts) {
       message += " <" + part + ">";
@@ -132,10 +136,17 @@ public class Subject<S extends Subject<S,T>,T> {
   }
 
   protected void failWithoutSubject(String verb) {
-    String message = "Not true that ";
+    String message = FAILURE_PREFIX;
     message += "the subject " + verb;
     failureStrategy.fail(message);
   }
+  
+  protected void failWithFormat(String format, Object... messageParts) {
+    String message = FAILURE_PREFIX;
+    message += String.format(format, messageParts);
+    failureStrategy.fail(message);
+  }
+
 
   /**
    * A convenience class to allow for chaining in the fluent API

@@ -23,7 +23,7 @@ import org.junit.contrib.truth.Truth;
 /**
  * An extended verb to demonstrate (and test) the subclassing mechanism for
  * extension. Note this is not the preferred approach to extension, which is
- * {@link TestVerb#for() }
+ * {@link TestVerb#about() }
  * 
  * @author David Saff
  * @author Christian Gruber (christianedwardgruber@gmail.com)

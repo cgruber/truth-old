@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2011 David Saff
  * Copyright (c) 2011 Christian Gruber
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,46 +16,47 @@
  */
 package org.junit.contrib.truth;
 
-import java.util.Collection;
-
 import org.junit.contrib.truth.subjects.BooleanSubject;
 import org.junit.contrib.truth.subjects.CollectionSubject;
 import org.junit.contrib.truth.subjects.DefaultSubject;
 import org.junit.contrib.truth.subjects.IntegerSubject;
+import org.junit.contrib.truth.subjects.ListSubject;
 import org.junit.contrib.truth.subjects.StringSubject;
 
-public class TestVerb {
-  private final FailureStrategy failureStrategy;
+import java.util.Collection;
+import java.util.List;
+
+public class TestVerb extends AbstractVerb {
 
   public TestVerb(FailureStrategy failureStrategy) {
-    this.failureStrategy = failureStrategy;
-  }
-  
-  public DefaultSubject that(Object o) {
-    return new DefaultSubject(getFailureStrategy(), o);
+    super(failureStrategy);
   }
 
-  public IntegerSubject that(Long i) {
-    return new IntegerSubject(getFailureStrategy(), i);
+  public DefaultSubject that(Object target) {
+    return new DefaultSubject(getFailureStrategy(), target);
   }
 
-  public IntegerSubject that(Integer i) {
-    return new IntegerSubject(getFailureStrategy(), i);
+  public IntegerSubject that(Long target) {
+    return new IntegerSubject(getFailureStrategy(), target);
   }
 
-  public BooleanSubject that(Boolean i) {
-    return new BooleanSubject(getFailureStrategy(), i);
+  public IntegerSubject that(Integer target) {
+    return new IntegerSubject(getFailureStrategy(), target);
   }
 
-  public StringSubject that(String string) {
-    return new StringSubject(getFailureStrategy(), string);
+  public BooleanSubject that(Boolean target) {
+    return new BooleanSubject(getFailureStrategy(), target);
   }
 
-  protected FailureStrategy getFailureStrategy() {
-    return failureStrategy;
+  public StringSubject that(String target) {
+    return new StringSubject(getFailureStrategy(), target);
   }
 
-  public <T> CollectionSubject<T> that(Collection<T> list) {
-    return new CollectionSubject<T>(getFailureStrategy(), list);
+  public <T, C extends Collection<T>> CollectionSubject<? extends CollectionSubject<?, T, C>, T, C> that(Collection<T> target) {
+    return CollectionSubject.create(getFailureStrategy(), target);
+  }
+
+  public <T, C extends List<T>> ListSubject<? extends ListSubject<?, T, C>, T, C> that(List<T> target) {
+    return ListSubject.create(getFailureStrategy(), target);
   }
 }

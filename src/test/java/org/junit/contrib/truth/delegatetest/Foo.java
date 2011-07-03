@@ -14,22 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.junit.contrib.truth.extensiontest;
-
-import static org.junit.contrib.truth.extensiontest.ExtendedVerb.ASSERT;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+package org.junit.contrib.truth.delegatetest;
 
 /**
- * A test that's more or less intended to show how one uses an extended verb.
+ * A custom object for demonstration of the delegation aproach to 
+ * extending truth.
  * 
- * @author David Saff
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
-public class ExtensionTest {
-  @Test public void customTypeCompares() {
-    ASSERT.that(new MyType(5)).matches(new MyType(2 + 3));
+public class Foo {
+
+  final int value;
+
+  public Foo(int value) {
+    this.value = value;
   }
+
 }

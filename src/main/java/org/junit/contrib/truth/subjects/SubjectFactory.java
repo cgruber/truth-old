@@ -14,22 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.junit.contrib.truth.extensiontest;
+package org.junit.contrib.truth.subjects;
 
-import static org.junit.contrib.truth.extensiontest.ExtendedVerb.ASSERT;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.contrib.truth.FailureStrategy;
 
 /**
- * A test that's more or less intended to show how one uses an extended verb.
+ * A custom subject factory which will return a FooSubject (which
+ * is a Subject<Foo>).
  * 
- * @author David Saff
  * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
-public class ExtensionTest {
-  @Test public void customTypeCompares() {
-    ASSERT.that(new MyType(5)).matches(new MyType(2 + 3));
-  }
+public interface SubjectFactory<S extends Subject<S,T>, T> {
+  
+  S getSubject(FailureStrategy fs, T that);
 }
+

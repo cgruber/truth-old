@@ -14,22 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.junit.contrib.truth.extensiontest;
+package org.junit.contrib.truth.delegatetest;
 
-import static org.junit.contrib.truth.extensiontest.ExtendedVerb.ASSERT;
+import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.junit.contrib.truth.delegatetest.FooSubject.FOO;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 /**
  * A test that's more or less intended to show how one uses an extended verb.
  * 
- * @author David Saff
- * @author Christian Gruber (cgruber@israfil.net)
  */
-@RunWith(JUnit4.class)
-public class ExtensionTest {
+public class DelegationTest {
+
   @Test public void customTypeCompares() {
-    ASSERT.that(new MyType(5)).matches(new MyType(2 + 3));
+    ASSERT.about(FOO).that(new Foo(5)).matches(new Foo(2 + 3));
   }
+
 }
